@@ -26,3 +26,36 @@ function operate(operator, num1, num2) {
             return divide(num1, num2);
     }
 }
+
+const displayText = document.querySelector("#display");
+const buttons = document.querySelector("#buttons");
+
+function insertDigit(digit) {
+    if (displayText.textContent === "0") {
+        if (digit !== "0") {
+            displayText.textContent = digit;
+        }
+    }
+    else {
+        displayText.textContent += digit;
+    }
+}
+
+buttons.addEventListener('click', (event) => {
+    let target = event.target;
+
+    switch (target.id) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '0':
+            insertDigit(target.id);
+            break;
+    }
+});
