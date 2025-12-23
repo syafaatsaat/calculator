@@ -41,6 +41,17 @@ function insertDigit(digit) {
     }
 }
 
+function removeDigit() {
+    let numbers = displayText.textContent;
+    if (numbers.length < 2) {
+        displayText.textContent = "0";
+    }
+    else {
+        numbers = numbers.slice(0, numbers.length - 1);
+        displayText.textContent = numbers;
+    }
+}
+
 buttons.addEventListener('click', (event) => {
     let target = event.target;
 
@@ -56,6 +67,12 @@ buttons.addEventListener('click', (event) => {
         case '9':
         case '0':
             insertDigit(target.id);
+            break;
+        case 'backspace':
+            removeDigit();
+            break;
+        case 'clear':
+            displayText.textContent = "0";
             break;
     }
 });
