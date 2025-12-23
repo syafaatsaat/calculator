@@ -65,6 +65,8 @@ function insertOperator(operator) {
     if (justFinishedOperation && theLeftOperand === "Undefined") {
         return;
     }
+
+    justFinishedOperation = false;
     
     if (theRightOperand === "") {
         theOperator = operator;
