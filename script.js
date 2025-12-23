@@ -34,6 +34,9 @@ function operate(operator, num1, num2) {
 const displayText = document.querySelector("#display");
 const buttons = document.querySelector("#buttons");
 let justFinishedOperation = false;
+let theLeftOperand = "";
+let theOperator = "";
+let theRightOperand = "";
 
 function checkOperatorUsed() {
     const operators = ['+', '-', '×', '÷'];
@@ -51,90 +54,94 @@ function checkOperatorUsed() {
     };
 }
 
+function updateDisplay() {
+    displayText.textContent = theLeftOperand + theOperator + theRightOperand;
+    if (displayText.textContent.length === 0) {
+        displayText.textContent = "0";
+    }
+}
+
 function insertOperator(operator) {
-    const operators = ['+', '-', '×', '÷']; 
-    let currentExpression = displayText.textContent;
-    if (currentExpression.includes("Undefined")) {
+    if (justFinishedOperation && theLeftOperand === "Undefined") {
         return;
     }
-
-    if (justFinishedOperation) {
-        justFinishedOperation = false;
+    
+    if (theRightOperand === "") {
+        theOperator = operator;
     }
-
-    if (checkOperatorUsed().result) 
-    {
-        let displayTextLen = currentExpression.length;
-        let lastVariableUsed = currentExpression[displayTextLen - 1];
-        if (operators.includes(lastVariableUsed)) {
-            removeVariable();
-        }
-        else {
-            return;
-        }
-    }
-
-    displayText.textContent += operator;
 }
 
 function insertDigit(digit) {
     if (justFinishedOperation) {
-        justFinishedOperation = false;
-        displayText.textContent = "0";
+        clearDisplay();
     }
 
-    if (displayText.textContent === "0") {
-        if (digit !== "0") {
-            displayText.textContent = digit;
+    if (theOperator === "") {
+        if (digit === ".") {
+            if (theLeftOperand.includes(digit)) {
+                return;
+            }
         }
+
+        theLeftOperand += digit;
     }
     else {
-        displayText.textContent += digit;
+        if (digit === ".") {
+            if (theRightOperand.includes(digit)) {
+                return;
+            }
+        }
+
+        theRightOperand += digit;
     }
 }
 
 function removeVariable() {
-    let expression = displayText.textContent;
-    if (expression.includes("Undefined")) {
-        return;
-    }
-
     if (justFinishedOperation) {
-        return;
+        clearDisplay();
     }
 
-    if (expression.length < 2) {
-        displayText.textContent = "0";
+    if (theOperator === "") {
+        if (theLeftOperand.length > 0) {
+            theLeftOperand = theLeftOperand.slice(
+                0, theLeftOperand.length - 1
+            );
+        }
     }
     else {
-        newExpression = expression.slice(0, expression.length - 1);
-        displayText.textContent = newExpression;
+        if (theRightOperand.length > 0) {
+            theRightOperand = theRightOperand.slice(
+                0, theRightOperand.length - 1
+            );
+        }
+        else {
+            theOperator = "";
+        }
     }
 }
 
 function computeResult() {
-    const operatorUsed = checkOperatorUsed();
-    let result = "";
-    if (operatorUsed.result) {
-        let variables = displayText.textContent.split(operatorUsed.operator);
-        if (variables[1] === "") {
-            result = variables[0];
+    if (theOperator !== "") {
+        let result = "";
+        if (theRightOperand === "") {
+            result = theLeftOperand;
         }
         else {
-            let num1 = +variables[0];
-            let num2 = +variables[1];
-            result = operate(operatorUsed.operator, num1, num2);
+            result = operate(theOperator, +theLeftOperand, +theRightOperand);
         }
 
-        displayText.textContent = result;
+        theLeftOperand = result;
+        theOperator = "";
+        theRightOperand = "";
+        justFinishedOperation = true;
     }
-
-    justFinishedOperation = true;
 }
 
 function clearDisplay() {
     justFinishedOperation = false;
-    displayText.textContent = "0";
+    theLeftOperand = "";
+    theOperator = "";
+    theRightOperand = "";
 }
 
 buttons.addEventListener('click', (event) => {
@@ -152,27 +159,39 @@ buttons.addEventListener('click', (event) => {
         case '9':
         case '0':
             insertDigit(target.id);
+            updateDisplay();
+            break;
+        case 'decimal':
+            insertDigit('.');
+            updateDisplay();
             break;
         case 'add':
             insertOperator('+');
+            updateDisplay();
             break;
         case 'subtract':
             insertOperator('-');
+            updateDisplay();
             break;
         case 'multiply':
             insertOperator('×');
+            updateDisplay();
             break;
         case 'divide':
             insertOperator('÷');
+            updateDisplay();
             break;
         case 'equal':
             computeResult();
+            updateDisplay();
             break;
         case 'backspace':
             removeVariable();
+            updateDisplay();
             break;
         case 'clear':
             clearDisplay();
+            updateDisplay();
             break;
     }
 });
