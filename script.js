@@ -33,6 +33,7 @@ function operate(operator, num1, num2) {
 
 const displayText = document.querySelector("#display");
 const buttons = document.querySelector("#buttons");
+let justFinishedOperation = false;
 
 function checkOperatorUsed() {
     const operators = ['+', '-', '×', '÷'];
@@ -53,6 +54,14 @@ function checkOperatorUsed() {
 function insertOperator(operator) {
     const operators = ['+', '-', '×', '÷']; 
     let currentExpression = displayText.textContent;
+    if (currentExpression.includes("Undefined")) {
+        return;
+    }
+
+    if (justFinishedOperation) {
+        justFinishedOperation = false;
+    }
+
     if (checkOperatorUsed().result) 
     {
         let displayTextLen = currentExpression.length;
@@ -69,6 +78,11 @@ function insertOperator(operator) {
 }
 
 function insertDigit(digit) {
+    if (justFinishedOperation) {
+        justFinishedOperation = false;
+        displayText.textContent = "0";
+    }
+
     if (displayText.textContent === "0") {
         if (digit !== "0") {
             displayText.textContent = digit;
@@ -81,6 +95,14 @@ function insertDigit(digit) {
 
 function removeVariable() {
     let expression = displayText.textContent;
+    if (expression.includes("Undefined")) {
+        return;
+    }
+
+    if (justFinishedOperation) {
+        return;
+    }
+
     if (expression.length < 2) {
         displayText.textContent = "0";
     }
@@ -106,6 +128,13 @@ function computeResult() {
 
         displayText.textContent = result;
     }
+
+    justFinishedOperation = true;
+}
+
+function clearDisplay() {
+    justFinishedOperation = false;
+    displayText.textContent = "0";
 }
 
 buttons.addEventListener('click', (event) => {
@@ -143,7 +172,7 @@ buttons.addEventListener('click', (event) => {
             removeVariable();
             break;
         case 'clear':
-            displayText.textContent = "0";
+            clearDisplay();
             break;
     }
 });
