@@ -38,24 +38,23 @@ let theLeftOperand = "";
 let theOperator = "";
 let theRightOperand = "";
 
-function checkOperatorUsed() {
-    const operators = ['+', '-', '×', '÷'];
-    let currentExpression = displayText.textContent;
-    for (const operator of operators) {
-        if (currentExpression.includes(operator)) {
-            return {
-                result: true,
-                operator: operator,
-            };
-        }
-    }
-    return {
-        result: false
-    };
-}
-
 function updateDisplay() {
-    displayText.textContent = theLeftOperand + theOperator + theRightOperand;
+    if (theLeftOperand.length > 0 && +theLeftOperand < 0) {
+        displayText.textContent = "(" + theLeftOperand + ")";
+    }
+    else {
+        displayText.textContent = theLeftOperand;
+    }
+
+    displayText.textContent += theOperator;
+
+    if (theRightOperand.length > 0 && +theRightOperand < 0) {
+        displayText.textContent += "(" + theRightOperand + ")";
+    }
+    else {
+        displayText.textContent += theRightOperand;
+    }
+
     if (displayText.textContent.length === 0) {
         displayText.textContent = "0";
     }
@@ -98,6 +97,31 @@ function insertDigit(digit) {
     }
 }
 
+function negateOperand() {
+    if (theOperator !== "") {
+        if (theRightOperand !== "") {
+            if (+theRightOperand < 0) {
+                theRightOperand = theRightOperand.slice(1);
+            }
+            else {
+                theRightOperand = '-' + theRightOperand;
+            }
+        }
+    }
+    else {
+        if (theLeftOperand !== "") {
+            if (+theLeftOperand < 0) {
+                theLeftOperand = theLeftOperand.slice(1);
+            }
+            else {
+                theLeftOperand = '-' + theLeftOperand;
+            }
+        }
+    }
+
+    justFinishedOperation = false;
+}
+
 function removeVariable() {
     if (justFinishedOperation) {
         clearDisplay();
@@ -132,7 +156,7 @@ function computeResult() {
             result = operate(theOperator, +theLeftOperand, +theRightOperand);
         }
 
-        theLeftOperand = result;
+        theLeftOperand = result.toString();
         theOperator = "";
         theRightOperand = "";
         justFinishedOperation = true;
@@ -181,6 +205,10 @@ buttons.addEventListener('click', (event) => {
             break;
         case 'divide':
             insertOperator('÷');
+            updateDisplay();
+            break;
+        case 'negate':
+            negateOperand();
             updateDisplay();
             break;
         case 'equal':
