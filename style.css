@@ -60,7 +60,7 @@ body {
 
 #display {
     width: 28%;
-    height: 12%;
+    height: 15%;
     padding: 10px;
     display: flex;
     justify-content: flex-end;
@@ -96,6 +96,10 @@ body {
 
 button.no-bg:hover {
     cursor: default;
+}
+
+button.no-bg:active {
+    background-color: transparent;
 }
 
 button:hover {
