@@ -84,6 +84,11 @@ function insertDigit(digit) {
             }
         }
 
+        if (theLeftOperand === "0") {
+            theLeftOperand = digit;
+            return;
+        }
+
         theLeftOperand += digit;
     }
     else {
@@ -91,6 +96,11 @@ function insertDigit(digit) {
             if (theRightOperand.includes(digit)) {
                 return;
             }
+        }
+
+        if (theRightOperand === "0") {
+            theRightOperand = digit;
+            return;
         }
 
         theRightOperand += digit;
