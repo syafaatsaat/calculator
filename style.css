@@ -1,3 +1,91 @@
+* {
+    font-family: "Google Sans Flex", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "wdth" 100,
+        "GRAD" 0,
+        "ROND" 0;
+    color: white;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-color: black;
+}
+
+.filter-white {
+    filter: invert(100%) sepia(0%) saturate(7461%) hue-rotate(50deg) brightness(120%) contrast(96%);
+}
+
+.light-grey-bg {
+    background-color: rgb(126, 126, 126);
+}
+
+.grey-bg {
+    background-color: rgb(52, 52, 52);
+}
+
+.orange-bg {
+    background-color: rgb(255, 157, 0);
+}
+
+.no-bg {
+    background-color: transparent;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 10px;
+}
+
+#display {
+    width: 28%;
+    height: 12%;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 96px;
+}
+
+#buttons {
+    width: 28%;
+    height: 68%;
+    padding: 10px;
+}
+
+#buttons button {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: none;
+    font-size: 48px;
+    padding: 0;
+}
+
 #buttons img {
     pointer-events: none;
+    width: 40%;
+    height: 40%;
+    margin-top: 10px;
 }
