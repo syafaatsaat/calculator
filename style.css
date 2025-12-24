@@ -79,7 +79,7 @@ body {
     width: 100%;
     border-radius: 50%;
     border: none;
-    font-size: 48px;
+    font-size: 64px;
     padding: 0;
 }
 
@@ -88,4 +88,20 @@ body {
     width: 40%;
     height: 40%;
     margin-top: 10px;
+}
+
+#buttons button#clear {
+    font-size: 52px;
+}
+
+button.no-bg:hover {
+    cursor: default;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button:active {
+    background-color: rgb(187, 187, 187);
 }
