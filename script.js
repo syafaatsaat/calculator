@@ -98,6 +98,10 @@ function insertDigit(digit) {
 }
 
 function negateOperand() {
+    if (theLeftOperand === "Undefined") {
+        return;
+    }
+
     if (theOperator !== "") {
         if (theRightOperand !== "") {
             if (+theRightOperand < 0) {
