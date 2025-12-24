@@ -174,6 +174,64 @@ function clearDisplay() {
     theRightOperand = "";
 }
 
+function startButtonActive(keyCode) {
+    let button = document.getElementById(keyCode);
+    button.classList.add("active");
+}
+
+function stopButtonActive(keyCode) {
+    let button = document.getElementById(keyCode);
+    button.click();
+    button.classList.remove("active");
+}
+
+document.addEventListener('keydown', (event) => {
+    let keyCode = event.key;
+
+    switch (keyCode) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '0':
+            startButtonActive(keyCode);
+            break;
+        case '.':
+            startButtonActive('decimal');
+            break;
+        case '+':
+            startButtonActive('add');
+            break;
+        case '-':
+            startButtonActive('subtract');
+            break;
+        case '*':
+            startButtonActive('multiply');
+            break;
+        case '/':
+            startButtonActive('divide');
+            break;
+        case '-':
+            startButtonActive('negate');
+            break;
+        case '=':
+        case 'Enter':
+            startButtonActive('equal');
+            break;
+        case 'Backspace':
+            startButtonActive('backspace');
+            break;
+        case 'Delete':
+            startButtonActive('clear');
+            break;
+    }
+})
+
 document.addEventListener('keyup', (event) => {
     let keyCode = event.key;
 
@@ -188,44 +246,35 @@ document.addEventListener('keyup', (event) => {
         case '8':
         case '9':
         case '0':
-            insertDigit(keyCode);
-            updateDisplay();
+            stopButtonActive(keyCode);
             break;
         case '.':
-            insertDigit('.');
-            updateDisplay();
+            stopButtonActive('decimal');
             break;
         case '+':
-            insertOperator('+');
-            updateDisplay();
+            stopButtonActive('add');
             break;
         case '-':
-            insertOperator('-');
-            updateDisplay();
+            stopButtonActive('subtract');
             break;
         case '*':
-            insertOperator('×');
-            updateDisplay();
+            stopButtonActive('multiply');
             break;
         case '/':
-            insertOperator('÷');
-            updateDisplay();
+            stopButtonActive('divide');
             break;
         case '-':
-            negateOperand();
-            updateDisplay();
+            stopButtonActive('negate');
             break;
         case '=':
-            computeResult();
-            updateDisplay();
+        case 'Enter':
+            stopButtonActive('equal');
             break;
         case 'Backspace':
-            removeVariable();
-            updateDisplay();
+            stopButtonActive('backspace');
             break;
         case 'Delete':
-            clearDisplay();
-            updateDisplay();
+            stopButtonActive('clear');
             break;
     }
 })
