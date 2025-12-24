@@ -174,6 +174,62 @@ function clearDisplay() {
     theRightOperand = "";
 }
 
+document.addEventListener('keyup', (event) => {
+    let keyCode = event.key;
+
+    switch (keyCode) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '0':
+            insertDigit(keyCode);
+            updateDisplay();
+            break;
+        case '.':
+            insertDigit('.');
+            updateDisplay();
+            break;
+        case '+':
+            insertOperator('+');
+            updateDisplay();
+            break;
+        case '-':
+            insertOperator('-');
+            updateDisplay();
+            break;
+        case '*':
+            insertOperator('×');
+            updateDisplay();
+            break;
+        case '/':
+            insertOperator('÷');
+            updateDisplay();
+            break;
+        case '-':
+            negateOperand();
+            updateDisplay();
+            break;
+        case '=':
+            computeResult();
+            updateDisplay();
+            break;
+        case 'Backspace':
+            removeVariable();
+            updateDisplay();
+            break;
+        case 'Delete':
+            clearDisplay();
+            updateDisplay();
+            break;
+    }
+})
+
 buttons.addEventListener('click', (event) => {
     let target = event.target;
 
